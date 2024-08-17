@@ -10,9 +10,11 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import ru.skypro.homework.dto.NewPassword;
-import ru.skypro.homework.dto.UpdateUser;
-import ru.skypro.homework.model.User;
+import ru.skypro.homework.dto.NewPasswordDTO;
+import ru.skypro.homework.dto.UpdateUserDTO;
+import ru.skypro.homework.dto.UserDTO;
+
+import javax.validation.Valid;
 
 @CrossOrigin(value = "http://localhost:3000")
 @RestController
@@ -37,7 +39,7 @@ public class UserController {
             }, tags = "Пользователи"
     )
     @PostMapping("/set_password")
-    public ResponseEntity<?> setPassword(@RequestBody NewPassword newPassword) {
+    public ResponseEntity<?> setPassword(@Valid @RequestBody NewPasswordDTO newPassword) {
         return ResponseEntity.ok().build();
     }
 
@@ -50,7 +52,7 @@ public class UserController {
                             content = {
                                     @Content(
                                             mediaType = "application/json",
-                                            schema = @Schema(implementation = User.class)
+                                            schema = @Schema(implementation = UserDTO.class)
                                     )
                             }
                     ),
@@ -61,8 +63,8 @@ public class UserController {
             }, tags = "Пользователи"
     )
     @GetMapping("/me")
-    public ResponseEntity<User> getUser() {
-        return new ResponseEntity<>(new User(), HttpStatus.OK);
+    public ResponseEntity<UserDTO> getUser() {
+        return new ResponseEntity<>(new UserDTO(), HttpStatus.OK);
     }
 
     @Operation(
@@ -74,7 +76,7 @@ public class UserController {
                             content = {
                                     @Content(
                                             mediaType = "application/json",
-                                            schema = @Schema(implementation = UpdateUser.class)
+                                            schema = @Schema(implementation = UpdateUserDTO.class)
                                     )
                             }
                     ),
@@ -85,8 +87,8 @@ public class UserController {
             }, tags = "Пользователи"
     )
     @PatchMapping("/me")
-    public ResponseEntity<UpdateUser> updateUser(@RequestBody UpdateUser update) {
-        return new ResponseEntity<>(new UpdateUser(), HttpStatus.OK);
+    public ResponseEntity<UpdateUserDTO> updateUser(@Valid @RequestBody UpdateUserDTO update) {
+        return new ResponseEntity<>(new UpdateUserDTO(), HttpStatus.OK);
     }
 
     @Operation(

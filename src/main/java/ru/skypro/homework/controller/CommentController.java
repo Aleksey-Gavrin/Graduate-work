@@ -7,9 +7,11 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.skypro.homework.dto.Comments;
-import ru.skypro.homework.dto.CreateOrUpdateComment;
-import ru.skypro.homework.model.Comment;
+import ru.skypro.homework.dto.CommentsDTO;
+import ru.skypro.homework.dto.CreateOrUpdateCommentDTO;
+import ru.skypro.homework.dto.CommentDTO;
+
+import javax.validation.Valid;
 
 @CrossOrigin(value = "http://localhost:3000")
 @RestController
@@ -25,7 +27,7 @@ public class CommentController {
                             content = {
                                     @Content(
                                             mediaType = "application/json",
-                                            schema = @Schema(implementation = Comments.class)
+                                            schema = @Schema(implementation = CommentsDTO.class)
                                     )
                             }
                     ),
@@ -40,8 +42,8 @@ public class CommentController {
             }, tags = "Комментарии"
     )
     @GetMapping("/{id}/comments")
-    public ResponseEntity<Comments> getComments(@PathVariable int id) {
-        return new ResponseEntity<>(new Comments(), HttpStatus.OK);
+    public ResponseEntity<CommentsDTO> getComments(@PathVariable int id) {
+        return new ResponseEntity<>(new CommentsDTO(), HttpStatus.OK);
     }
 
     @Operation(
@@ -53,7 +55,7 @@ public class CommentController {
                             content = {
                                     @Content(
                                             mediaType = "application/json",
-                                            schema = @Schema(implementation = Comment.class)
+                                            schema = @Schema(implementation = CommentDTO.class)
                                     )
                             }
                     ),
@@ -68,8 +70,8 @@ public class CommentController {
             }, tags = "Комментарии"
     )
     @PostMapping("/{id}/comments")
-    public ResponseEntity<Comment> addComment(@PathVariable int id, @RequestBody CreateOrUpdateComment properties) {
-        return new ResponseEntity<>(new Comment(), HttpStatus.OK);
+    public ResponseEntity<CommentDTO> addComment(@PathVariable int id, @Valid @RequestBody CreateOrUpdateCommentDTO properties) {
+        return new ResponseEntity<>(new CommentDTO(), HttpStatus.OK);
     }
 
     @Operation(
@@ -107,7 +109,7 @@ public class CommentController {
                             content = {
                                     @Content(
                                             mediaType = "application/json",
-                                            schema = @Schema(implementation = Comment.class)
+                                            schema = @Schema(implementation = CommentDTO.class)
                                     )
                             }
                     ),
@@ -126,8 +128,8 @@ public class CommentController {
             }, tags = "Комментарии"
     )
     @PatchMapping("{adId}/comments/{commentId}")
-    public ResponseEntity<Comment> updateComment(@PathVariable int adId, @PathVariable int commentId,
-                                                 @RequestBody CreateOrUpdateComment properties) {
-        return new ResponseEntity<>(new Comment(), HttpStatus.OK);
+    public ResponseEntity<CommentDTO> updateComment(@PathVariable int adId, @PathVariable int commentId,
+                                                   @Valid @RequestBody CreateOrUpdateCommentDTO properties) {
+        return new ResponseEntity<>(new CommentDTO(), HttpStatus.OK);
     }
 }
