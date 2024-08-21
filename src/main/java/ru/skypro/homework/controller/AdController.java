@@ -9,11 +9,12 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import ru.skypro.homework.dto.Ads;
-import ru.skypro.homework.dto.CreateOrUpdateAd;
-import ru.skypro.homework.dto.ExtendedAd;
-import ru.skypro.homework.model.Ad;
+import ru.skypro.homework.dto.AdsDTO;
+import ru.skypro.homework.dto.CreateOrUpdateAdDTO;
+import ru.skypro.homework.dto.ExtendedAdDTO;
+import ru.skypro.homework.dto.AdDTO;
 
+import javax.validation.Valid;
 import java.io.ByteArrayOutputStream;
 
 @CrossOrigin(value = "http://localhost:3000")
@@ -30,15 +31,15 @@ public class AdController {
                             content = {
                                     @Content(
                                             mediaType = "application/json",
-                                            schema = @Schema(implementation = Ads.class)
+                                            schema = @Schema(implementation = AdsDTO.class)
                                     )
                             }
                     )
             }, tags = "Объявления"
     )
     @GetMapping
-    public ResponseEntity<Ads> getAllAds() {
-        return new ResponseEntity<>(new Ads(), HttpStatus.OK);
+    public ResponseEntity<AdsDTO> getAllAds() {
+        return new ResponseEntity<>(new AdsDTO(), HttpStatus.OK);
     }
 
     @Operation(
@@ -50,7 +51,7 @@ public class AdController {
                             content = {
                                     @Content(
                                             mediaType = "application/json",
-                                            schema = @Schema(implementation = Ad.class)
+                                            schema = @Schema(implementation = AdDTO.class)
                                     )
                             }
                     ),
@@ -61,8 +62,8 @@ public class AdController {
             }, tags = "Объявления"
     )
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Ad> addAd(@RequestPart("properties") CreateOrUpdateAd properties, @RequestPart("image") MultipartFile image) {
-        return new ResponseEntity<>(new Ad(), HttpStatus.OK);
+    public ResponseEntity<AdDTO> addAd(@Valid @RequestPart("properties") CreateOrUpdateAdDTO properties, @RequestPart("image") MultipartFile image) {
+        return new ResponseEntity<>(new AdDTO(), HttpStatus.OK);
     }
 
     @Operation(
@@ -74,7 +75,7 @@ public class AdController {
                             content = {
                                     @Content(
                                             mediaType = "application/json",
-                                            schema = @Schema(implementation = ExtendedAd.class)
+                                            schema = @Schema(implementation = ExtendedAdDTO.class)
                                     )
                             }
                     ),
@@ -89,8 +90,8 @@ public class AdController {
             }, tags = "Объявления"
     )
     @GetMapping("/{id}")
-    public ResponseEntity<ExtendedAd> getAds(@PathVariable int id) {
-        return new ResponseEntity<>(new ExtendedAd(), HttpStatus.OK);
+    public ResponseEntity<ExtendedAdDTO> getAds(@PathVariable int id) {
+        return new ResponseEntity<>(new ExtendedAdDTO(), HttpStatus.OK);
     }
 
     @Operation(
@@ -128,7 +129,7 @@ public class AdController {
                             content = {
                                     @Content(
                                             mediaType = "application/json",
-                                            schema = @Schema(implementation = Ad.class)
+                                            schema = @Schema(implementation = AdDTO.class)
                                     )
                             }
                     ),
@@ -147,8 +148,8 @@ public class AdController {
             }, tags = "Объявления"
     )
     @PatchMapping("/{id}")
-    public ResponseEntity<Ad> updateAds(@PathVariable int id, @RequestBody CreateOrUpdateAd properties) {
-        return new ResponseEntity<>(new Ad(), HttpStatus.OK);
+    public ResponseEntity<AdDTO> updateAds(@PathVariable int id, @Valid @RequestBody CreateOrUpdateAdDTO properties) {
+        return new ResponseEntity<>(new AdDTO(), HttpStatus.OK);
     }
 
     @Operation(
@@ -160,7 +161,7 @@ public class AdController {
                             content = {
                                     @Content(
                                             mediaType = "application/json",
-                                            schema = @Schema(implementation = Ads.class)
+                                            schema = @Schema(implementation = AdsDTO.class)
                                     )
                             }
                     ),
@@ -171,8 +172,8 @@ public class AdController {
             }, tags = "Объявления"
     )
     @GetMapping("/me")
-    public ResponseEntity<Ads> getAdsMe() {
-        return new ResponseEntity<>(new Ads(), HttpStatus.OK);
+    public ResponseEntity<AdsDTO> getAdsMe() {
+        return new ResponseEntity<>(new AdsDTO(), HttpStatus.OK);
     }
 
     @Operation(
