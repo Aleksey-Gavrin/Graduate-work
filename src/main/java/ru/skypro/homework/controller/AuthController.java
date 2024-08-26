@@ -13,8 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.skypro.homework.dto.LoginDTO;
 import ru.skypro.homework.dto.RegisterDTO;
 import ru.skypro.homework.service.AuthService;
-
-import javax.validation.Valid;
+import ru.skypro.homework.utils.ValidationUtils;
 
 @Slf4j
 @CrossOrigin(value = "http://localhost:3000")
@@ -23,6 +22,7 @@ import javax.validation.Valid;
 public class AuthController {
 
     private final AuthService authService;
+    private final ValidationUtils validationUtils;
 
     @Operation(
             summary = "Авторизация пользователя",
@@ -38,7 +38,8 @@ public class AuthController {
             }, tags = "Авторизация"
     )
     @PostMapping("/login")
-    public ResponseEntity<?> login(@Valid @RequestBody LoginDTO login) {
+    public ResponseEntity<?> login(@RequestBody LoginDTO login) {
+        validationUtils.validateRequest(login);
         if (authService.login(login.getUsername(), login.getPassword())) {
             return ResponseEntity.ok().build();
         } else {
@@ -60,7 +61,8 @@ public class AuthController {
             }, tags = "Регистрация"
     )
     @PostMapping("/register")
-    public ResponseEntity<?> register(@Valid @RequestBody RegisterDTO register) {
+    public ResponseEntity<?> register(@RequestBody RegisterDTO register) {
+        validationUtils.validateRequest(register);
         if (authService.register(register)) {
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } else {

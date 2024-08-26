@@ -17,6 +17,7 @@ public class UserModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(name = "user_name", nullable = false, unique = true)
     private String email;
     private String password;
     private String firstName;
@@ -28,6 +29,10 @@ public class UserModel {
     @OneToMany(mappedBy = "user")
     @JsonIgnore
     private List<AdModel> ads;
+
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    private List<CommentModel> comments;
 
     public UserModel() {
     }

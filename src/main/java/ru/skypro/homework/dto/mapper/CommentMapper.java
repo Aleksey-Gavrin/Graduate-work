@@ -1,5 +1,6 @@
 package ru.skypro.homework.dto.mapper;
 
+import org.springframework.stereotype.Component;
 import ru.skypro.homework.dto.CommentDTO;
 import ru.skypro.homework.dto.CommentsDTO;
 import ru.skypro.homework.dto.CreateOrUpdateCommentDTO;
@@ -7,14 +8,14 @@ import ru.skypro.homework.model.CommentModel;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
+@Component
 public class CommentMapper {
 
     public CommentDTO mapCommentModelToCommentDTO (CommentModel commentModel) {
         CommentDTO properties = new CommentDTO();
-        properties.setAuthor(commentModel.getAd().getUser().getId());
-        properties.setAuthorImage(commentModel.getAd().getUser().getImage());
-        properties.setAuthorFirstName(commentModel.getAd().getUser().getFirstName());
+        properties.setAuthor(commentModel.getUser().getId());
+        properties.setAuthorImage(commentModel.getUser().getImage());
+        properties.setAuthorFirstName(commentModel.getUser().getFirstName());
         properties.setCreatedAt(commentModel.getCreatedAt().getTime());
         properties.setPk(commentModel.getId());
         properties.setText(commentModel.getText());
@@ -32,14 +33,7 @@ public class CommentMapper {
         return properties;
     }
 
-    public CreateOrUpdateCommentDTO mapCommentModelToCreateOrUpdateCommentDTO (CommentModel commentModel) {
-        CreateOrUpdateCommentDTO properties = new CreateOrUpdateCommentDTO();
-        properties.setText(commentModel.getText());
-        return properties;
-    }
-
-    public CommentModel mapCreateOrUpdateCommentDTOToCommentModel (CommentModel commentModel, CreateOrUpdateCommentDTO properties) {
+    public void mapCreateOrUpdateCommentDTOToCommentModel (CommentModel commentModel, CreateOrUpdateCommentDTO properties) {
         commentModel.setText(properties.getText());
-        return commentModel;
     }
 }

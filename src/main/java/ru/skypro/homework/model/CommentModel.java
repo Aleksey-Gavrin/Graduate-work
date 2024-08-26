@@ -2,6 +2,8 @@ package ru.skypro.homework.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -20,7 +22,12 @@ public class CommentModel {
 
     @ManyToOne
     @JoinColumn(name = "ad_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private AdModel ad;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserModel user;
 
     public CommentModel() {
     }

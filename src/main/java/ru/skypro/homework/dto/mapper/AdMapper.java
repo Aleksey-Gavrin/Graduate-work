@@ -1,5 +1,6 @@
 package ru.skypro.homework.dto.mapper;
 
+import org.springframework.stereotype.Component;
 import ru.skypro.homework.dto.AdDTO;
 import ru.skypro.homework.dto.AdsDTO;
 import ru.skypro.homework.dto.CreateOrUpdateAdDTO;
@@ -8,7 +9,7 @@ import ru.skypro.homework.model.AdModel;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
+@Component
 public class AdMapper {
 
     public AdDTO mapAdModelToAdDTO (AdModel adModel) {
@@ -29,14 +30,6 @@ public class AdMapper {
         AdsDTO properties = new AdsDTO();
         properties.setCount(dtoList.size());
         properties.setResults(dtoList);
-        return properties;
-    }
-
-    public CreateOrUpdateAdDTO mapAdModelToCreateOrUpdateAdDTO (AdModel adModel) {
-        CreateOrUpdateAdDTO properties = new CreateOrUpdateAdDTO();
-        properties.setTitle(adModel.getTitle());
-        properties.setPrice(adModel.getPrice());
-        properties.setDescription(adModel.getDescription());
         return properties;
     }
 
