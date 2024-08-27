@@ -17,7 +17,6 @@ import ru.skypro.homework.dto.AdsDTO;
 import ru.skypro.homework.dto.CreateOrUpdateAdDTO;
 import ru.skypro.homework.dto.ExtendedAdDTO;
 import ru.skypro.homework.dto.mapper.AdMapper;
-import ru.skypro.homework.exception.EntityModelNotFoundException;
 import ru.skypro.homework.model.AdModel;
 import ru.skypro.homework.model.UserModel;
 import ru.skypro.homework.service.AdService;
@@ -85,15 +84,11 @@ public class AdController {
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<AdDTO> addAd(@RequestPart("properties") CreateOrUpdateAdDTO properties,
                                        @RequestPart("image") MultipartFile image,
-                                       Authentication authentication) {
+                                       Authentication authentication) throws IOException {
         validationUtils.validateImageFile(image);
         validationUtils.validateRequest(properties);
         AdModel adModel = adService.createAd(authentication.getName(), properties);
-        try {
-            adService.setImageToAd(adModel, image);
-        } catch (IOException e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        adService.setImageToAd(adModel, image);
         AdDTO adDTO = adMapper.mapAdModelToAdDTO(adModel);
         return new ResponseEntity<>(adDTO, HttpStatus.CREATED);
     }
@@ -123,13 +118,9 @@ public class AdController {
     )
     @GetMapping("/{id}")
     public ResponseEntity<ExtendedAdDTO> getAds(@PathVariable int id) {
-        try {
-            AdModel adModel = adService.findAdById(id);
-            ExtendedAdDTO extendedAdDTO = adMapper.mapAdModelToExtendedAdDTO(adModel);
-            return new ResponseEntity<>(extendedAdDTO, HttpStatus.OK);
-        } catch (EntityModelNotFoundException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        AdModel adModel = adService.findAdById(id);
+        ExtendedAdDTO extendedAdDTO = adMapper.mapAdModelToExtendedAdDTO(adModel);
+        return new ResponseEntity<>(extendedAdDTO, HttpStatus.OK);
     }
 
     @Operation(
@@ -158,13 +149,9 @@ public class AdController {
         if (!authUtils.isAccessToAdGranted(id, authentication)) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        try {
-            adService.deleteAd(id);
-            fileUtils.deleteImageFile(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (EntityModelNotFoundException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        adService.deleteAd(id);
+        fileUtils.deleteImageFile(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @Operation(
@@ -201,13 +188,9 @@ public class AdController {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
         validationUtils.validateRequest(properties);
-        try {
-            AdModel updatedAd = adService.updateAd(id, properties);
-            AdDTO adDTO = adMapper.mapAdModelToAdDTO(updatedAd);
-            return new ResponseEntity<>(adDTO, HttpStatus.OK);
-        } catch (EntityModelNotFoundException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        AdModel updatedAd = adService.updateAd(id, properties);
+        AdDTO adDTO = adMapper.mapAdModelToAdDTO(updatedAd);
+        return new ResponseEntity<>(adDTO, HttpStatus.OK);
     }
 
     @Operation(
@@ -270,20 +253,14 @@ public class AdController {
             produces = {MediaType.IMAGE_JPEG_VALUE},
             value = "/{id}/image")
     public ResponseEntity<byte[]> updateImage(@PathVariable int id, @RequestPart("image") MultipartFile image,
-                                              Authentication authentication) {
+                                              Authentication authentication) throws IOException {
         if (!authUtils.isAccessToAdGranted(id, authentication)) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
         validationUtils.validateImageFile(image);
-        try {
             AdModel updatingAd = adService.findAdById(id);
             adService.setImageToAd(updatingAd, image);
             byte[] bytes = image.getBytes();
             return new ResponseEntity<>(bytes, HttpStatus.OK);
-        } catch (EntityModelNotFoundException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (IOException e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
     }
 }

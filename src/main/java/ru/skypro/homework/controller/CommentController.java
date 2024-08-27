@@ -13,7 +13,6 @@ import ru.skypro.homework.dto.CommentDTO;
 import ru.skypro.homework.dto.CommentsDTO;
 import ru.skypro.homework.dto.CreateOrUpdateCommentDTO;
 import ru.skypro.homework.dto.mapper.CommentMapper;
-import ru.skypro.homework.exception.EntityModelNotFoundException;
 import ru.skypro.homework.model.CommentModel;
 import ru.skypro.homework.service.CommentService;
 import ru.skypro.homework.utils.AuthUtils;
@@ -57,13 +56,9 @@ public class CommentController {
     )
     @GetMapping("/{id}/comments")
     public ResponseEntity<CommentsDTO> getComments(@PathVariable int id) {
-        try {
-            List<CommentModel> comments = commentService.getAllComments(id);
-            CommentsDTO commentsDTO = mapper.mapListCommentModelToCommentsDTO(comments);
-            return new ResponseEntity<>(commentsDTO, HttpStatus.OK);
-        } catch (EntityModelNotFoundException exception) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        List<CommentModel> comments = commentService.getAllComments(id);
+        CommentsDTO commentsDTO = mapper.mapListCommentModelToCommentsDTO(comments);
+        return new ResponseEntity<>(commentsDTO, HttpStatus.OK);
     }
 
     @Operation(
@@ -93,14 +88,9 @@ public class CommentController {
     public ResponseEntity<CommentDTO> addComment(@PathVariable int id, @RequestBody CreateOrUpdateCommentDTO properties,
                                                  Authentication authentication) {
         validationUtils.validateRequest(properties);
-        try {
-            CommentModel commentModel = commentService.createComment(id, properties, authentication.getName());
-            CommentDTO commentDTO = mapper.mapCommentModelToCommentDTO(commentModel);
-            return new ResponseEntity<>(commentDTO, HttpStatus.OK);
-
-        } catch (EntityModelNotFoundException exception) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        CommentModel commentModel = commentService.createComment(id, properties, authentication.getName());
+        CommentDTO commentDTO = mapper.mapCommentModelToCommentDTO(commentModel);
+        return new ResponseEntity<>(commentDTO, HttpStatus.OK);
     }
 
     @Operation(
@@ -129,13 +119,8 @@ public class CommentController {
         if (!authUtils.isAccessToCommentGranted(commentId, authentication)) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        try {
-            commentService.deleteComment(commentId);
-            return new ResponseEntity<>(HttpStatus.OK);
-
-        } catch (EntityModelNotFoundException exception) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        commentService.deleteComment(commentId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @Operation(
@@ -173,13 +158,8 @@ public class CommentController {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
         validationUtils.validateRequest(properties);
-        try {
-            CommentModel commentModel = commentService.updateComment(commentId, properties);
-            CommentDTO commentDTO = mapper.mapCommentModelToCommentDTO(commentModel);
-            return new ResponseEntity<>(commentDTO, HttpStatus.OK);
-
-        } catch (EntityModelNotFoundException exception) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        CommentModel commentModel = commentService.updateComment(commentId, properties);
+        CommentDTO commentDTO = mapper.mapCommentModelToCommentDTO(commentModel);
+        return new ResponseEntity<>(commentDTO, HttpStatus.OK);
     }
 }
