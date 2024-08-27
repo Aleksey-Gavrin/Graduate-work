@@ -34,7 +34,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public CommentModel createComment(int adId, CreateOrUpdateCommentDTO properties, String username) {
+    public CommentModel createComment(int adId, CreateOrUpdateCommentDTO properties, String username) throws EntityModelNotFoundException {
         CommentModel commentModel = new CommentModel();
         UserModel userModel = userService.findUserByUserName(username);
         mapper.mapCreateOrUpdateCommentDTOToCommentModel(commentModel, properties);

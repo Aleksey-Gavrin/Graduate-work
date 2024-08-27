@@ -44,7 +44,7 @@ public class AdServiceImpl implements AdService {
     }
 
     @Override
-    public AdModel createAd(String username, CreateOrUpdateAdDTO properties) {
+    public AdModel createAd(String username, CreateOrUpdateAdDTO properties) throws EntityModelNotFoundException {
         AdModel creatingAd = adMapper.mapCreateOrUpdateAdDTOToAdModel(new AdModel(), properties);
         UserModel author = userService.findUserByUserName(username);
         creatingAd.setUser(author);
