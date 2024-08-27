@@ -48,6 +48,7 @@ public class AdServiceImpl implements AdService {
         AdModel creatingAd = adMapper.mapCreateOrUpdateAdDTOToAdModel(new AdModel(), properties);
         UserModel author = userService.findUserByUserName(username);
         creatingAd.setUser(author);
+        log.info("Ad successfully created with the following parameters: {}", properties);
         return adModelRepository.save(creatingAd);
     }
 
@@ -68,6 +69,8 @@ public class AdServiceImpl implements AdService {
                  BufferedOutputStream bos = new BufferedOutputStream(os, 1024)
             ) {
                 bis.transferTo(bos);
+                log.info("Image file saved in system directory " + imageDir + ". File name is 'image"
+                        + existingAd.getId() + ".jpg'");
             }
         }
         existingAd.setImage(imageDownloadURL + existingAd.getId());
@@ -84,6 +87,7 @@ public class AdServiceImpl implements AdService {
     public AdModel updateAd(int id, CreateOrUpdateAdDTO properties) throws EntityModelNotFoundException {
         AdModel existingAd = findAdById(id);
         adMapper.mapCreateOrUpdateAdDTOToAdModel(existingAd, properties);
+        log.info("Ad model with id = " + id + " successfully updated with parameters: {}", properties);
         return existingAd;
     }
 
@@ -91,6 +95,7 @@ public class AdServiceImpl implements AdService {
     public void deleteAd(int id) throws EntityModelNotFoundException {
         AdModel existingAd = findAdById(id);
         adModelRepository.delete(existingAd);
+        log.info("Ad model with id = " + id + " successfully deleted from DB");
     }
 
     @Override

@@ -1,5 +1,6 @@
 package ru.skypro.homework.service.impl;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.skypro.homework.dto.CreateOrUpdateCommentDTO;
 import ru.skypro.homework.dto.mapper.CommentMapper;
@@ -17,6 +18,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
+@Slf4j
 public class CommentServiceImpl implements CommentService {
 
     private final CommentModelRepository commentModelRepository;
@@ -53,6 +55,7 @@ public class CommentServiceImpl implements CommentService {
         CommentModel existingComment = findById(id);
         mapper.mapCreateOrUpdateCommentDTOToCommentModel(existingComment, properties);
         existingComment.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
+        log.info("Comment with id = " + id + " updated with following value: {}", properties);
         return commentModelRepository.save(existingComment);
     }
 
@@ -60,6 +63,7 @@ public class CommentServiceImpl implements CommentService {
     public void deleteComment(int id) throws EntityModelNotFoundException {
         CommentModel existingComment = findById(id);
         commentModelRepository.delete(existingComment);
+        log.info("Comment with id = " + id + " successfully deleted from DB");
     }
 
     @Override

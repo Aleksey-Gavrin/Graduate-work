@@ -60,6 +60,7 @@ public class UserServiceImpl implements UserService {
     public UserModel updateUser(String username, UpdateUserDTO update) throws EntityModelNotFoundException {
         UserModel existingUser = findUserByUserName(username);
         userMapper.mapUpdateUserDTOToUserModel(update, existingUser);
+        log.info("Additional info for user " + username + " is updated with following parameters: {}", update);
         return userModelRepository.save(existingUser);
     }
 
@@ -83,6 +84,8 @@ public class UserServiceImpl implements UserService {
                  BufferedOutputStream bos = new BufferedOutputStream(os, 1024)
             ) {
                 bis.transferTo(bos);
+                log.info("User avatar file saved in system directory " + avatarsDir + ". File name is 'avatar"
+                        + existingUser.getId() + ".jpg'");
             }
         }
         existingUser.setImage(avatarDownloadURL + existingUser.getId());
