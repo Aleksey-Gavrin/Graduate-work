@@ -1,21 +1,11 @@
 package ru.skypro.homework.dto.mapper;
 
-import ru.skypro.homework.dto.RegisterDTO;
+import org.springframework.stereotype.Component;
 import ru.skypro.homework.dto.UpdateUserDTO;
 import ru.skypro.homework.dto.UserDTO;
 import ru.skypro.homework.model.UserModel;
-
+@Component
 public class UserMapper {
-
-    public UserModel mapRegisterDTOToUserModel (UserModel userModel, RegisterDTO register) {
-        userModel.setEmail(register.getUsername());
-        userModel.setPassword(register.getPassword());
-        userModel.setFirstName(register.getFirstName());
-        userModel.setLastName(register.getLastName());
-        userModel.setPhone(register.getPhone());
-        userModel.setRole(register.getRole());
-        return userModel;
-    }
 
     public UserDTO mapUserModelToUserDTO (UserModel userModel) {
         UserDTO properties = new UserDTO();
@@ -29,11 +19,10 @@ public class UserMapper {
         return properties;
     }
 
-    public UserModel mapUpdateUserDTOToUserModel (UserModel userModel, UpdateUserDTO properties) {
+    public void mapUpdateUserDTOToUserModel (UpdateUserDTO properties, UserModel userModel) {
         userModel.setFirstName(properties.getFirstName());
         userModel.setLastName(properties.getLastName());
         userModel.setPhone(properties.getPhone());
-        return userModel;
     }
 
     public UpdateUserDTO mapUserModelToUpdateUserDTO (UserModel userModel) {

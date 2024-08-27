@@ -8,11 +8,11 @@ import javax.validation.constraints.Size;
 @Data
 public class NewPasswordDTO {
 
-    @NotBlank
+    @NotBlank(message = "The field 'currentPassword' should be filled")
     @Size(min = 8, max = 16, message = "Password length should be between 8 and 16 symbols")
     private String currentPassword;
 
-    @NotBlank
+    @NotBlank(message = "The field 'newPassword' should be filled")
     @Size(min = 8, max = 16, message = "Password length should be between 8 and 16 symbols")
     private String newPassword;
 }
