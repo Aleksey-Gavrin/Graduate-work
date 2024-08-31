@@ -60,8 +60,9 @@ public class UserServiceImpl implements UserService {
     public UserModel updateUser(String username, UpdateUserDTO update) throws EntityModelNotFoundException {
         UserModel existingUser = findUserByUserName(username);
         userMapper.mapUpdateUserDTOToUserModel(update, existingUser);
+        userModelRepository.save(existingUser);
         log.info("Additional info for user " + username + " is updated with following parameters: {}", update);
-        return userModelRepository.save(existingUser);
+        return existingUser;
     }
 
     @Override

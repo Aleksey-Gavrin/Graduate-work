@@ -87,6 +87,7 @@ public class AdServiceImpl implements AdService {
     public AdModel updateAd(int id, CreateOrUpdateAdDTO properties) throws EntityModelNotFoundException {
         AdModel existingAd = findAdById(id);
         adMapper.mapCreateOrUpdateAdDTOToAdModel(existingAd, properties);
+        adModelRepository.save(existingAd);
         log.info("Ad model with id = " + id + " successfully updated with parameters: {}", properties);
         return existingAd;
     }

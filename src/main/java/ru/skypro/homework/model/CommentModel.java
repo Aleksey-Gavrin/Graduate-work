@@ -7,6 +7,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -30,5 +31,22 @@ public class CommentModel {
     private UserModel user;
 
     public CommentModel() {
+    }
+
+    public CommentModel(String text) {
+        this.text = text;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CommentModel that = (CommentModel) o;
+        return Objects.equals(getCreatedAt(), that.getCreatedAt()) && Objects.equals(getText(), that.getText());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getCreatedAt(), getText());
     }
 }
