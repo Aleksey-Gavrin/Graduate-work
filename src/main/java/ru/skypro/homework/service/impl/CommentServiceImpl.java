@@ -41,7 +41,8 @@ public class CommentServiceImpl implements CommentService {
         commentModel.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
         commentModel.setAd(adService.findAdById(adId));
         commentModel.setUser(userModel);
-        return commentModelRepository.save(commentModel);
+        commentModelRepository.save(commentModel);
+        return commentModel;
     }
 
     @Override
@@ -56,7 +57,8 @@ public class CommentServiceImpl implements CommentService {
         mapper.mapCreateOrUpdateCommentDTOToCommentModel(existingComment, properties);
         existingComment.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
         log.info("Comment with id = " + id + " updated with following value: {}", properties);
-        return commentModelRepository.save(existingComment);
+        commentModelRepository.save(existingComment);
+        return existingComment;
     }
 
     @Override

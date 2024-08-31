@@ -2,6 +2,7 @@ package ru.skypro.homework.utils;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletResponse;
@@ -24,7 +25,7 @@ public class FileUtils {
              BufferedInputStream bis = new BufferedInputStream(is, 1024);
              BufferedOutputStream bos = new BufferedOutputStream(os, 1024)) {
 
-            response.setContentType("image/jpeg");
+            response.setContentType(MediaType.IMAGE_JPEG_VALUE);
             response.setContentLength((int) avatarFile.length());
             response.setStatus(200);
             bis.transferTo(bos);

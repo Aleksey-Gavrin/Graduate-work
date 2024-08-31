@@ -33,6 +33,10 @@ public class CommentModel {
     public CommentModel() {
     }
 
+    public CommentModel(String text) {
+        this.text = text;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
