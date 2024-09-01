@@ -30,4 +30,21 @@
 
 ---
 ### Примеры внешнего вида интерфейса приложения и доступных функций:  
+
 _ГЛАВНЫЙ ЭКРАН_
+![alt-Главный экран](https://github.com/Aleksey-Gavrin/Graduate-work/blob/dev/demo/Main.png "Главный экран")  
+
+---
+
+_ЭКРАН РЕГИСТРАЦИИ НОВОГО ПОЛЬЗОВАТЕЛЯ_
+![alt-Экран регистрации](https://github.com/Aleksey-Gavrin/Graduate-work/blob/dev/demo/Registration.png "Экран регистрации")  
+
+---
+
+_ЭКРАН ПРОФИЛЯ ПОЛЬЗОВАТЕЛЯ_
+![alt-Экран профиля](https://github.com/Aleksey-Gavrin/Graduate-work/blob/dev/demo/Profile.png "Экран профиля")  
+
+---
+
+_ЭКРАН ОБЪЯВЛЕНИЯ_
+![alt-Экран объявления](https://github.com/Aleksey-Gavrin/Graduate-work/blob/dev/demo/Ad.png "Экран объявления")
