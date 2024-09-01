@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.dto.CreateOrUpdateAdDTO;
 import ru.skypro.homework.dto.mapper.AdMapper;
 import ru.skypro.homework.exception.EntityModelNotFoundException;
+import ru.skypro.homework.exception.InvalidRequestException;
 import ru.skypro.homework.model.AdModel;
 import ru.skypro.homework.model.UserModel;
 import ru.skypro.homework.repository.AdModelRepository;
@@ -53,6 +54,11 @@ public class AdServiceImpl implements AdService {
     }
 
     public void setImageToAd(AdModel existingAd, MultipartFile file) throws IOException {
+
+        if (existingAd == null) {
+            log.error("Cannot set image to ad, because AdModel is null");
+            throw new InvalidRequestException("Cannot set image to ad, because AdModel is null");
+        }
 
         if (file.getOriginalFilename() != null) {
             Path filePath = Path.of(imageDir, "image" + existingAd.getId() + "." + validationUtils.getFileExtension(file));

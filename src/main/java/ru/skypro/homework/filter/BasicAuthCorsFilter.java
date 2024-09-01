@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Класс для фильтрации входящих запросов, осуществляемой SpringSecurity
+ */
 @Component
 public class BasicAuthCorsFilter extends OncePerRequestFilter {
 

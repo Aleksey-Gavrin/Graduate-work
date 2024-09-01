@@ -9,7 +9,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 import static org.springframework.security.config.Customizer.withDefaults;
-
+/**
+ * Класс конфигурации WebSecurity. Содержит "белый список" эндпоинтов, для доступа к которым не требуется аутентификация
+ * пользователя, а также шифратор паролей (по умолчанию - {@link BCryptPasswordEncoder})
+*/
 @Configuration
 public class WebSecurityConfig {
 

@@ -116,7 +116,7 @@ public class CommentController {
     )
     @DeleteMapping("{adId}/comments/{commentId}")
     public ResponseEntity<?> deleteComment(@PathVariable int adId, @PathVariable int commentId, Authentication authentication) {
-        if (!authUtils.isAccessToCommentGranted(commentId, authentication)) {
+        if (authUtils.isAccessToCommentForbidden(commentId, authentication)) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
         commentService.deleteComment(commentId);
@@ -154,7 +154,7 @@ public class CommentController {
     public ResponseEntity<CommentDTO> updateComment(@PathVariable int adId, @PathVariable int commentId,
                                                     @RequestBody CreateOrUpdateCommentDTO properties,
                                                     Authentication authentication) {
-        if (!authUtils.isAccessToCommentGranted(commentId, authentication)) {
+        if (authUtils.isAccessToCommentForbidden(commentId, authentication)) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
         validationUtils.validateRequest(properties);

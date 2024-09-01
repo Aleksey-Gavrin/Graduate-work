@@ -8,6 +8,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.io.IOException;
 
+/**
+ * Перехватчик и обработчик исключений. Обрабатываемые типы исключений: {@link EntityModelNotFoundException},
+ * {@link InvalidRequestException}, {@link IOException}
+ */
 @RestControllerAdvice
 @Slf4j
 public class ExceptionControllerAdvice {

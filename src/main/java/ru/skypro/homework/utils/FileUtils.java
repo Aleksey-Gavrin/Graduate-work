@@ -10,6 +10,9 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+/**
+ * Вспомогательный класс, содержащий методы для загрузки и удаления файлов из локального хранилища
+ */
 @Component
 @Slf4j
 public class FileUtils {
@@ -17,6 +20,12 @@ public class FileUtils {
     @Value("${images.dir.path:./data}")
     private String imageDir;
 
+    /**
+     * Загружает файл из локального хранилища и отдает его в теле http - ответа с подходящими заголовками
+     * @param filePath - путь к загружаемому файлу в локальной директории в формате строки
+     * @param fileName - имя загружаемого файла включая его расширение в формате строки
+     * @param response - формируемый методом http - ответ
+     */
     public void downloadFile(String filePath, String fileName, HttpServletResponse response) {
         Path path = Path.of(filePath, fileName);
         File avatarFile = new File(String.valueOf(path));
@@ -36,6 +45,10 @@ public class FileUtils {
         }
     }
 
+    /**
+     * Удаляет из локального хранилища файл - изображение, связанный с объявлением по идентификатору объявления
+     * @param adId - идентификатор объявления, целое положительное число
+     */
     public void deleteImageFile(int adId) {
         Path filePath = Path.of(imageDir, "image" + adId + ".jpg");
         try {

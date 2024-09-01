@@ -146,7 +146,7 @@ public class AdController {
     )
     @DeleteMapping("/{id}")
     public ResponseEntity<?> removeAd(@PathVariable int id, Authentication authentication) {
-        if (!authUtils.isAccessToAdGranted(id, authentication)) {
+        if (authUtils.isAccessToAdForbidden(id, authentication)) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
         adService.deleteAd(id);
@@ -184,7 +184,7 @@ public class AdController {
     @PatchMapping("/{id}")
     public ResponseEntity<AdDTO> updateAds(@PathVariable int id, @RequestBody CreateOrUpdateAdDTO properties,
                                            Authentication authentication) {
-        if (!authUtils.isAccessToAdGranted(id, authentication)) {
+        if (authUtils.isAccessToAdForbidden(id, authentication)) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
         validationUtils.validateRequest(properties);
@@ -254,7 +254,7 @@ public class AdController {
             value = "/{id}/image")
     public ResponseEntity<byte[]> updateImage(@PathVariable int id, @RequestPart("image") MultipartFile image,
                                               Authentication authentication) throws IOException {
-        if (!authUtils.isAccessToAdGranted(id, authentication)) {
+        if (authUtils.isAccessToAdForbidden(id, authentication)) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
         validationUtils.validateImageFile(image);
